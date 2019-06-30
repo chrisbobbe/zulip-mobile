@@ -24,6 +24,7 @@ import type {
   VideoChatProvider,
   Stream,
   Outbox,
+  RecentPrivateConversation,
   User,
   UserGroup,
   UserStatusState,
@@ -83,6 +84,9 @@ export const getSubscriptions = (state: GlobalState): Subscription[] => state.su
  * or `getStreamsById` instead.
  */
 export const getStreams = (state: GlobalState): Stream[] => state.streams;
+
+export const getRecentPrivateConversations = (state: GlobalState): RecentPrivateConversation[] =>
+  state.recentPrivateConversations;
 
 export const getPresence = (state: GlobalState): PresenceState => state.presence;
 

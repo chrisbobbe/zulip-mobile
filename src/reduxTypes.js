@@ -22,6 +22,7 @@ import type {
   RealmEmojiById,
   RealmFilter,
   Narrow,
+  RecentPrivateConversation,
   Stream,
   StreamUnreadItem,
   Subscription,
@@ -267,6 +268,13 @@ export type RealmState = {|
   isAdmin: boolean,
 |};
 
+/**
+ * The PM conversations (group or 1:1) found in the last 1000 PMs.
+ *
+ * Sorted by `max_message_id` descending.
+ */
+export type RecentPrivateConversationsState = RecentPrivateConversation[];
+
 // TODO: Stop using the 'default' name. Any 'default' semantics should
 // only apply the device level, not within the app. See
 // https://github.com/zulip/zulip-mobile/issues/4009#issuecomment-619280681.
@@ -356,6 +364,7 @@ export type GlobalState = {|
   outbox: OutboxState,
   presence: PresenceState,
   realm: RealmState,
+  recentPrivateConversations: RecentPrivateConversationsState,
   session: SessionState,
   settings: SettingsState,
   streams: StreamsState,
