@@ -1,19 +1,16 @@
 /* @flow strict-local */
 import { getRecentConversations } from '../pmConversationsSelectors';
-import { ALL_PRIVATE_NARROW_STR } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getRecentConversations', () => {
   const userJohn = { ...eg.makeUser({ name: 'John' }), user_id: 1 };
   const userMark = { ...eg.makeUser({ name: 'Mark' }), user_id: 2 };
 
-  test('when no messages, return no conversations', () => {
+  test('when no recent conversations, return no conversations', () => {
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
+      recentPrivateConversations: [],
       users: [eg.selfUser],
-      narrows: {
-        [ALL_PRIVATE_NARROW_STR]: [],
-      },
       unread: {
         ...eg.baseReduxState.unread,
         pms: [],
@@ -35,23 +32,13 @@ describe('getRecentConversations', () => {
 
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
+      recentPrivateConversations: [
+        { max_message_id: meAndJohnPm2.id, user_ids: [userJohn.user_id] },
+        { max_message_id: meAndMarkPm.id, user_ids: [userMark.user_id] },
+        { max_message_id: meJohnAndMarkPm.id, user_ids: [userJohn.user_id, userMark.user_id] },
+        { max_message_id: meOnlyPm.id, user_ids: [] },
+      ],
       users: [eg.selfUser, userJohn, userMark],
-      narrows: {
-        [ALL_PRIVATE_NARROW_STR]: [
-          meJohnAndMarkPm.id,
-          meAndJohnPm1.id,
-          meAndMarkPm.id,
-          meAndJohnPm2.id,
-          meOnlyPm.id,
-        ],
-      },
-      messages: {
-        [meAndJohnPm1.id]: meAndJohnPm1,
-        [meAndMarkPm.id]: meAndMarkPm,
-        [meAndJohnPm2.id]: meAndJohnPm2,
-        [meOnlyPm.id]: meOnlyPm,
-        [meJohnAndMarkPm.id]: meJohnAndMarkPm,
-      },
       unread: {
         ...eg.baseReduxState.unread,
         pms: [
@@ -127,25 +114,13 @@ describe('getRecentConversations', () => {
 
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
+      recentPrivateConversations: [
+        { max_message_id: meAndJohnPm2.id, user_ids: [userJohn.user_id] },
+        { max_message_id: meAndMarkPm2.id, user_ids: [userMark.user_id] },
+        { max_message_id: meJohnAndMarkPm.id, user_ids: [userJohn.user_id, userMark.user_id] },
+        { max_message_id: meOnlyPm.id, user_ids: [] },
+      ],
       users: [eg.selfUser, userJohn, userMark],
-      narrows: {
-        [ALL_PRIVATE_NARROW_STR]: [
-          meAndMarkPm1.id,
-          meAndJohnPm1.id,
-          meAndMarkPm2.id,
-          meAndJohnPm2.id,
-          meJohnAndMarkPm.id,
-          meOnlyPm.id,
-        ],
-      },
-      messages: {
-        [meAndJohnPm1.id]: meAndJohnPm1,
-        [meAndMarkPm1.id]: meAndMarkPm1,
-        [meAndJohnPm2.id]: meAndJohnPm2,
-        [meAndMarkPm2.id]: meAndMarkPm2,
-        [meJohnAndMarkPm.id]: meJohnAndMarkPm,
-        [meOnlyPm.id]: meOnlyPm,
-      },
       unread: {
         ...eg.baseReduxState.unread,
         pms: [

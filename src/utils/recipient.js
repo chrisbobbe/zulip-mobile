@@ -118,6 +118,12 @@ export const pmKeyRecipientsFromMessage = (
   return filterRecipients(message.display_recipient, ownUser.user_id);
 };
 
+export const sortIds = (ids: number[]): string =>
+  ids
+    .slice()
+    .sort((a, b) => a - b)
+    .join(',');
+
 /**
  * The set of users to identify a PM conversation by in our data structures.
  *
