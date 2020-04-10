@@ -33,10 +33,10 @@ describe('getRecentConversations', () => {
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
       recentPrivateConversations: [
+        { max_message_id: meOnlyPm.id, user_ids: [] },
         { max_message_id: meAndJohnPm2.id, user_ids: [userJohn.user_id] },
         { max_message_id: meAndMarkPm.id, user_ids: [userMark.user_id] },
         { max_message_id: meJohnAndMarkPm.id, user_ids: [userJohn.user_id, userMark.user_id] },
-        { max_message_id: meOnlyPm.id, user_ids: [] },
       ],
       users: [eg.selfUser, userJohn, userMark],
       unread: {
@@ -115,10 +115,10 @@ describe('getRecentConversations', () => {
     const state = eg.reduxState({
       realm: eg.realmState({ email: eg.selfUser.email }),
       recentPrivateConversations: [
+        { max_message_id: meOnlyPm.id, user_ids: [] },
+        { max_message_id: meJohnAndMarkPm.id, user_ids: [userJohn.user_id, userMark.user_id] },
         { max_message_id: meAndJohnPm2.id, user_ids: [userJohn.user_id] },
         { max_message_id: meAndMarkPm2.id, user_ids: [userMark.user_id] },
-        { max_message_id: meJohnAndMarkPm.id, user_ids: [userJohn.user_id, userMark.user_id] },
-        { max_message_id: meOnlyPm.id, user_ids: [] },
       ],
       users: [eg.selfUser, userJohn, userMark],
       unread: {
