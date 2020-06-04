@@ -1,73 +1,13 @@
 /* @flow strict-local */
 
-/*
- * Types copied (completely or incompletely) from `react-native`; we
- * can't import them. See
- * https://github.com/flow-typed/flow-typed/blob/master/CONTRIBUTING.md#dont-import-types-from-other-libdefs
- */
-declare module 'react-native-webview/@@react-native' {
-  declare export type NativeScrollRectangle = {
-    left: number,
-    top: number,
-    bottom: number,
-    right: number,
-  };
-
-  declare export type NativeScrollPoint = {
-    x: number,
-    y: number,
-  };
-
-  declare export type NativeScrollVelocity = {
-    x: number,
-    y: number,
-  };
-
-  declare export type NativeScrollSize = {
-    height: number,
-    width: number,
-  };
-
-  declare export type NativeScrollEvent = {
-    contentInset: NativeScrollRectangle,
-    contentOffset: NativeScrollPoint,
-    contentSize: NativeScrollSize,
-    layoutMeasurement: NativeScrollSize,
-    velocity?: NativeScrollVelocity,
-    zoomScale: number,
-  };
-
-  declare export type NativeSyntheticEvent<T> = { +nativeEvent: T };
-
-  // Incomplete
-  declare export type ViewStyle = { ... };
-
-  declare type Falsy = void | null | false;
-  declare interface RecursiveArray<T> extends Array<T | $ReadOnlyArray<T> | RecursiveArray<T>> {}
-  /** Keep a brand of 'T' so that calls to `StyleSheet.flatten` can take `RegisteredStyle<T>` and return `T`. */
-  declare type RegisteredStyle<T> = number & { __registeredStyleBrand: T };
-  declare export type StyleProp<T> =
-    | T
-    | RegisteredStyle<T>
-    | RecursiveArray<T | RegisteredStyle<T> | Falsy>
-    | Falsy;
-
-  // Incomplete
-  declare export type ViewProps = {|
-    +style: StyleProp<ViewStyle>,
-  |};
-}
+import type { ViewProps } from 'react-native/Libraries/Components/View/ViewPropTypes';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import type {
+  SyntheticEvent as NativeSyntheticEvent,
+  ScrollEvent as NativeScrollEvent,
+} from 'react-native/Libraries/Types/CoreEventTypes';
 
 declare module 'react-native-webview' {
-  import type {
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    ViewProps,
-    StyleProp,
-    ViewStyle,
-    /* eslint-disable-next-line import/no-unresolved */
-  } from 'react-native-webview/@@react-native';
-
   declare export type MixedContentMode = 'never' | 'always' | 'compatibility';
   declare export type DecelerationRateConstant = 'normal' | 'fast';
   declare export type OverScrollModeType = 'always' | 'content' | 'never';
@@ -516,7 +456,7 @@ declare module 'react-native-webview' {
     /**
      * Stylesheet object to set the style of the container view.
      */
-    containerStyle?: StyleProp<ViewStyle>,
+    containerStyle?: ViewStyleProp,
 
     /**
      * Function that returns a view to show if there's an error.
