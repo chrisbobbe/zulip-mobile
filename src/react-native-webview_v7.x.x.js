@@ -1,3 +1,5 @@
+/* @flow strict-local */
+
 /*
  * Types copied (completely or incompletely) from `react-native`; we
  * can't import them. See
@@ -63,6 +65,7 @@ declare module 'react-native-webview' {
     ViewProps,
     StyleProp,
     ViewStyle,
+    /* eslint-disable-next-line import/no-unresolved */
   } from 'react-native-webview/@@react-native';
 
   declare export type MixedContentMode = 'never' | 'always' | 'compatibility';
@@ -168,6 +171,7 @@ declare module 'react-native-webview' {
   declare export type WebViewProgressEvent = NativeSyntheticEvent<WebViewNativeProgressEvent>;
   declare export type OnShouldStartLoadWithRequest = (event: WebViewNavigation) => boolean;
 
+  /* eslint-disable-next-line flowtype/type-id-match */
   declare export type IOSOnlyWebViewProps = {|
     /**
      * Does not store any data within the lifetime of the WebView.
@@ -346,6 +350,7 @@ declare module 'react-native-webview' {
     onContentProcessDidTerminate?: WebViewTerminatedEvent => mixed,
   |};
 
+  /* eslint-disable-next-line flowtype/type-id-match */
   declare export type IOSWebViewProps = {| ...IOSOnlyWebViewProps, ...WebViewSharedProps |};
 
   declare export type AndroidOnlyWebViewProps = {|
