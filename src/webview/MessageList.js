@@ -316,6 +316,7 @@ class MessageList extends Component<Props> {
     // https://github.com/react-native-community/react-native-webview/pull/697
     return (
       <WebView
+        onContentSizeChange={(myBooleanParam: boolean) => undefined}
         thisProp="isNotAllowed"
         startInLoadingState
         renderLoading={this.renderLoading}
