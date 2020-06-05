@@ -439,7 +439,7 @@ declare module 'react-native-webview' {
      * See note at 'react-native-webview/@@react-native', above; this
      * is incomplete.
      */
-    ...ViewProps,
+    // ...ViewProps,
 
     /**
      * Loads static html or a uri (with optional headers) in the WebView.
