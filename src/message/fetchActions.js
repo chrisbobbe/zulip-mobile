@@ -41,7 +41,7 @@ const sendLotsOfMessages = () => (dispatch: Dispatch, getState: GetState) => {
   const messageFetchCompleteActions = [];
   const eventNewMessageActions = [];
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < numMessages; i++) {
     messageFetchCompleteActions.push({
       type: 'MESSAGE_FETCH_COMPLETE',
       messages: [],
@@ -85,12 +85,12 @@ const sendLotsOfMessages = () => (dispatch: Dispatch, getState: GetState) => {
         sender_realm_str: 'zulip',
         sender_short_name: '',
         recipient_id: 2567,
-        display_recipient: `myStream${0}`,
+        display_recipient: `myStream${i}`,
         stream_id: 624,
         content: 'This is an example stream message.',
         content_type: 'text/markdown',
         id: 9281159 + i,
-        subject: `myTopic${0}`,
+        subject: `myTopic${i}`,
         timestamp: 1556579727,
         type: 'stream',
         flags: [],
