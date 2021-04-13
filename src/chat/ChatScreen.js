@@ -25,7 +25,7 @@ import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors'
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
-  route: RouteProp<'chat', {| narrow: Narrow |}>,
+  route: RouteProp<'chat', {| narrow: Narrow, anchor: number | void |}>,
 |}>;
 
 const componentStyles = createStyleSheet({
@@ -45,7 +45,7 @@ const componentStyles = createStyleSheet({
  * whole process.
  */
 const useFetchMessages = args => {
-  const { narrow } = args;
+  const { narrow, anchor } = args;
 
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -69,11 +69,11 @@ const useFetchMessages = args => {
   const fetch = React.useCallback(async () => {
     shouldFetchWhenNextFocused.current = false;
     try {
-      await dispatch(fetchMessagesInNarrow(narrow));
+      await dispatch(fetchMessagesInNarrow(narrow, anchor));
     } catch (e) {
       setFetchError(e);
     }
-  }, [dispatch, narrow]);
+  }, [dispatch, narrow, anchor]);
 
   // When the event queue changes, schedule a fetch.
   React.useEffect(() => {
@@ -103,11 +103,11 @@ export default function ChatScreen(props: Props) {
 
   const [editMessage, setEditMessage] = React.useState<EditMessage | null>(null);
 
-  const { narrow } = props.route.params;
+  const { narrow, anchor } = props.route.params;
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
 
-  const { fetchError, isFetching, haveNoMessages } = useFetchMessages({ narrow });
+  const { fetchError, isFetching, haveNoMessages } = useFetchMessages({ narrow, anchor });
 
   const showMessagePlaceholders = haveNoMessages && isFetching;
   const sayNoMessages = haveNoMessages && !isFetching;
@@ -135,6 +135,7 @@ export default function ChatScreen(props: Props) {
                 narrow={narrow}
                 showMessagePlaceholders={showMessagePlaceholders}
                 startEditMessage={setEditMessage}
+                initialScrollMessageId={anchor}
               />
             );
           }

@@ -19,7 +19,7 @@ export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) =
   getState: GetState,
 ) => {
   // TODO: Use `anchor` to open the message list to a particular message.
-  NavigationService.dispatch(navigateToChat(narrow));
+  NavigationService.dispatch(navigateToChat(narrow, anchor));
 };
 
 export const messageLinkPress = (href: string) => async (
