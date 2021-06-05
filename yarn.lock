@@ -1104,22 +1104,6 @@
     xcode "^2.1.0"
     xml2js "^0.4.23"
 
-"@expo/configure-splash-screen@0.1.13":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@expo/configure-splash-screen/-/configure-splash-screen-0.1.13.tgz#9f974146d716ffc03461e4d2deb7bfb22826e56a"
-  integrity sha512-1AYaHDJlAXfS7K/i2kI7U5+dELfKnFrXti97cIC5PkHOwEQVti8Uw1/KXO0+Pih7g8BNDvDPjHlMNDqn7AnBCA==
-  dependencies:
-    "@react-native-community/cli-platform-android" "^4.10.0"
-    "@react-native-community/cli-platform-ios" "^4.10.0"
-    color-string "^1.5.3"
-    commander "^5.1.0"
-    core-js "^3.6.5"
-    deep-equal "^2.0.3"
-    fs-extra "^9.0.0"
-    pngjs "^5.0.0"
-    xcode "^3.0.0"
-    xml-js "^1.6.11"
-
 "@expo/configure-splash-screen@0.1.17":
   version "0.1.17"
   resolved "https://registry.yarnpkg.com/@expo/configure-splash-screen/-/configure-splash-screen-0.1.17.tgz#74534e475546a2e67228a3741bcf908e7b06e439"
@@ -1132,6 +1116,22 @@
     core-js "^3.6.5"
     deep-equal "^2.0.3"
     fs-extra "^9.0.0"
+    lodash "^4.17.15"
+    pngjs "^5.0.0"
+    xcode "^3.0.0"
+    xml-js "^1.6.11"
+
+"@expo/configure-splash-screen@0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@expo/configure-splash-screen/-/configure-splash-screen-0.3.4.tgz#b91d8f08fd96272bd3d7aaa9b51d6189b932c7cc"
+  integrity sha512-HsukM03X5/EXSucVsLN/oLqyFq/1jAjpADkgU1HLaezFpkr+TOquI6yDwdDp1450kcm891PE/SYJ+mCdPxzDLw==
+  dependencies:
+    color-string "^1.5.3"
+    commander "^5.1.0"
+    core-js "^3.6.5"
+    deep-equal "^2.0.3"
+    fs-extra "^9.0.0"
+    glob "^7.1.6"
     lodash "^4.17.15"
     pngjs "^5.0.0"
     xcode "^3.0.0"
@@ -5106,12 +5106,12 @@ expo-screen-orientation@^1.0.0:
   resolved "https://registry.yarnpkg.com/expo-screen-orientation/-/expo-screen-orientation-1.0.0.tgz#a168b7493e7a7b45da2c80b1b0d4e89e1f8e7698"
   integrity sha512-McYHWSA3KVgh3IeztKg0oxkHtSRzDfqGRSHg6GgIici5C93LOF4tGzO38tLNVGXIjbu8EdvBRB7pslKS73AXGg==
 
-expo-splash-screen@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.5.0.tgz#cad0eb77a3eade2c7101d169b8655e7ee8053c2f"
-  integrity sha512-MqYHCbqGtmnA/b+D2JQHxeQzlSfbU4SAGQ2DmzmaBekqRMkRrVrsiBXF7b3wpHTW6R3pC5lsXoH9vq91e5a9xg==
+expo-splash-screen@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.10.2.tgz#3e3d7c24c4ed180a60ce3ec64a77eefd04dd0d97"
+  integrity sha512-ngelW7g5yFqk3LWbyLDDxi3LYXEfgGFCJddL/Q8S/C1pMUc5foW2j9i/q+akK8i5mjYtSx3+Bk/qbyX92QIF/w==
   dependencies:
-    "@expo/configure-splash-screen" "0.1.13"
+    "@expo/configure-splash-screen" "0.3.4"
 
 extend-shallow@^1.1.2:
   version "1.1.4"
