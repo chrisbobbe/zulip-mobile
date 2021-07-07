@@ -35,19 +35,20 @@ export default function createPersistor (store, config) {
   let writeInProgress = false
 
   store.subscribe(() => {
-    if (paused || writeInProgress) return
-    writeInProgress = true
-
-    const state = store.getState()
-    const updatedSubstates = []
-
-    Object.keys(state).forEach((key) => {
-      if (!passWhitelistBlacklist(key)) return
-      if (lastState[key] === state[key]) return
-      updatedSubstates.push([key, state[key]])
-    });
+    if (paused || writeInProgress) return;
 
     (async () => {
+      writeInProgress = true
+
+      const state = store.getState()
+      const updatedSubstates = []
+
+      Object.keys(state).forEach((key) => {
+        if (!passWhitelistBlacklist(key)) return
+        if (lastState[key] === state[key]) return
+        updatedSubstates.push([key, state[key]])
+      });
+
       while (updatedSubstates.length > 0) {
         await new Promise(r => setTimeout(r, 0));
 
@@ -56,9 +57,8 @@ export default function createPersistor (store, config) {
         storage.setItem(storageKey, serializer(substate)).catch(warnIfSetError(key))
       }
       writeInProgress = false
+      lastState = state
     })()
-
-    lastState = state
   })
 
   function passWhitelistBlacklist (key) {
