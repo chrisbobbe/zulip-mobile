@@ -30,7 +30,7 @@ export default function createPersistor (store, config) {
   const storage = config.storage;
 
   // initialize stateful values
-  let lastState = {}
+  let lastWrittenState = {}
   let paused = false
   let writeInProgress = false
 
@@ -45,7 +45,7 @@ export default function createPersistor (store, config) {
 
       Object.keys(state).forEach((key) => {
         if (!passWhitelistBlacklist(key)) return
-        if (lastState[key] === state[key]) return
+        if (lastWrittenState[key] === state[key]) return
         updatedSubstates.push([key, state[key]])
       });
 
@@ -57,13 +57,18 @@ export default function createPersistor (store, config) {
         writes.push([key, serializer(substate)])
       }
 
-      // Warning: not guaranteed to be done in a transaction.
-      storage.multiSet(
-        writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
-      ).catch(warnIfSetError(updatedSubstates));
+      try {
+        // Warning: not guaranteed to be done in a transaction.
+        await storage.multiSet(
+          writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
+        )
+      } catch (e) {
+        warnIfSetError(updatedSubstates)(e)
+        throw e
+      }
 
       writeInProgress = false
-      lastState = state
+      lastWrittenState = state
     })()
   })
 
@@ -106,7 +111,7 @@ export default function createPersistor (store, config) {
     // Only used in `persistStore`, to force `lastState` to update
     // with the results of `REHYDRATE` even when the persistor is
     // paused.
-    _resetLastState: () => { lastState = store.getState() }
+    _resetLastState: () => { lastWrittenState = store.getState() }
   }
 }
 
