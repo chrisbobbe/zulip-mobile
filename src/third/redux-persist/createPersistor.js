@@ -65,6 +65,7 @@ export default function createPersistor (store, config) {
       await new Promise(r => setTimeout(r, 0));
     }
 
+    // Write them all out, in one `storage.multiSet` operation.
     try {
       // Warning: not guaranteed to be done in a transaction.
       await storage.multiSet(
@@ -75,6 +76,7 @@ export default function createPersistor (store, config) {
       throw e
     }
 
+    // Record success.
     writeInProgress = false
     lastWrittenState = state
   }
