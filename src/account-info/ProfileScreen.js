@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
-import { ScrollView, View, Alert } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
@@ -110,15 +111,17 @@ export default function ProfileScreen(props: Props) {
 
   return (
     <ScrollView>
-      <AccountDetails user={ownUser} />
+      <SafeAreaView mode="margin" edges={['right', 'left']}>
+        <AccountDetails user={ownUser} />
+      </SafeAreaView>
       <AwayStatusSwitch />
-      <View style={styles.buttonRow}>
+      <SafeAreaView mode="margin" edges={['right', 'left']} style={styles.buttonRow}>
         <SetStatusButton />
-      </View>
-      <View style={styles.buttonRow}>
+      </SafeAreaView>
+      <SafeAreaView mode="margin" edges={['right', 'left']} style={styles.buttonRow}>
         <SwitchAccountButton />
         <LogoutButton />
-      </View>
+      </SafeAreaView>
     </ScrollView>
   );
 }
