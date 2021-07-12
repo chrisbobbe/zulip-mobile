@@ -134,7 +134,10 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   // Update the badge count. Do not play sound or show an alert. For
   // these options see
   // https://developer.apple.com/documentation/usernotifications/unnotificationpresentationoptions?language=objc
-  completionHandler(UNNotificationPresentationOptionBadge);
+  completionHandler(
+    UNNotificationPresentationOptionBadge
+    | UNNotificationPresentationOptionSound
+ );
 }
 
 @end
