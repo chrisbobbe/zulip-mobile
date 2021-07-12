@@ -36,6 +36,12 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
 |}>;
 
+/**
+ * The first tab in the main-tabs screen, showing unread counts.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * unread conversation items) do.
+ */
 class HomeScreen extends PureComponent<Props> {
   render() {
     const { dispatch } = this.props;

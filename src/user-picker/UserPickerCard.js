@@ -34,6 +34,12 @@ type Props = $ReadOnly<{|
   onComplete: (selected: UserOrBot[]) => void,
 |}>;
 
+/**
+ * A multi-select for users.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * user items and section headers) do.
+ */
 function UserPickerCard(props: Props) {
   const { filter, users, presences } = props;
 

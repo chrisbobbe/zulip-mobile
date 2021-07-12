@@ -101,6 +101,9 @@ type Props = $ReadOnly<{|
  * It does not have a "Send private message" but has "Switch account" and "Log out" buttons.
  *
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
+ *
+ * Needs to occupy the horizontal insets because the away-status switch
+ * does.
  */
 export default function ProfileScreen(props: Props) {
   const ownUser = useSelector(getOwnUser);
