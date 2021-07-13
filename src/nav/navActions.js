@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import {
+  type PopAction,
   StackActions,
   CommonActions,
   type GenericNavigationAction,
@@ -9,7 +10,7 @@ import type { Message, Narrow, SharedData, UserId } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { getSameRoutesCount } from '../selectors';
 
-export const navigateBack = (): GenericNavigationAction => StackActions.pop(getSameRoutesCount());
+export const navigateBack = (): PopAction => StackActions.pop(getSameRoutesCount());
 
 /*
  * "Reset" actions, to explicitly prohibit back navigation.
