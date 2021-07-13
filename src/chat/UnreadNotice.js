@@ -1,7 +1,6 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Narrow, Dispatch } from '../types';
@@ -22,9 +21,6 @@ const styles = createStyleSheet({
   safeAreaWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  unreadTextWrapper: {
-    flexDirection: 'row',
     alignItems: 'center',
   },
   unreadText: {
@@ -56,19 +52,17 @@ class UnreadNotice extends PureComponent<Props> {
     return (
       <AnimatedScaleComponent visible={unreadCount > 0} style={styles.unreadContainer}>
         <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.safeAreaWrapper}>
-          <View style={styles.unreadTextWrapper}>
-            <Label
-              style={styles.unreadText}
-              text={{
-                text: `{unreadCount, plural,
+          <Label
+            style={styles.unreadText}
+            text={{
+              text: `{unreadCount, plural,
   =0 {No unread messages}
   =1 {# unread message}
   other {# unread messages}
 }`,
-                values: { unreadCount },
-              }}
-            />
-          </View>
+              values: { unreadCount },
+            }}
+          />
           <MarkAsReadButton narrow={narrow} />
         </SafeAreaView>
       </AnimatedScaleComponent>
