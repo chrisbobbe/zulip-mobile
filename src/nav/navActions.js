@@ -10,6 +10,7 @@ import * as NavigationService from './NavigationService';
 import type { Message, Narrow, SharedData, UserId } from '../types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 
+// TODO: Probably just do a CommonActions.goBack()?
 export const navigateBack = (): PopAction => {
   const routes = NavigationService.getState().routes;
   let i = routes.length - 1;
