@@ -5,10 +5,9 @@ import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 // $FlowFixMe[untyped-import]
 import TextInputReset from 'react-native-text-input-reset';
-import { type EdgeInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { compose } from 'redux';
 
-import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import type {
@@ -76,8 +75,6 @@ type SelectorProps = {|
 |};
 
 type Props = $ReadOnly<{|
-  insets: EdgeInsets,
-
   narrow: Narrow,
   editMessage: EditMessage | null,
   completeEditMessage: () => void,
@@ -483,7 +480,6 @@ class ComposeBox extends PureComponent<Props, State> {
       narrow,
       allUsersById,
       editMessage,
-      insets,
       isAdmin,
       isAnnouncementOnly,
       isSubscribed,
@@ -502,7 +498,6 @@ class ComposeBox extends PureComponent<Props, State> {
 
     const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById);
     const style = {
-      paddingBottom: insets.bottom,
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
     };
 
@@ -527,7 +522,12 @@ class ComposeBox extends PureComponent<Props, State> {
             onAutocomplete={this.handleMessageAutocomplete}
           />
         </View>
-        <View style={[this.styles.composeBox, style]} onLayout={this.handleLayoutChange}>
+        <SafeAreaView
+          mode="padding"
+          edges={['bottom']}
+          style={[this.styles.composeBox, style]}
+          onLayout={this.handleLayoutChange}
+        >
           <ComposeMenu
             destinationNarrow={this.getDestinationNarrow()}
             expanded={isMenuExpanded}
@@ -575,7 +575,7 @@ class ComposeBox extends PureComponent<Props, State> {
             disabled={message.trim().length === 0 || this.state.numUploading > 0}
             onPress={editMessage === null ? this.handleSend : this.handleEdit}
           />
-        </View>
+        </SafeAreaView>
       </View>
     );
   }
@@ -595,5 +595,4 @@ export default compose(
     stream: getStreamInNarrow(state, props.narrow),
     videoChatProvider: getVideoChatProvider(state),
   })),
-  withSafeAreaInsets,
 )(withGetText(ComposeBox));
