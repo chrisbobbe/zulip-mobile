@@ -88,7 +88,11 @@ export default function createPersistor (store, config) {
         writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
       )
     } catch (e) {
-      warnIfSetError(updatedSubstates)(e)
+      logging.warn(
+        'An error (below) was encountered while trying to persist this set of keys:',
+        updatedSubstates.map(([key]) => key).join(', ')
+      );
+      logging.warn(e);
       throw e
     }
 
@@ -136,18 +140,6 @@ export default function createPersistor (store, config) {
     // with the results of `REHYDRATE` even when the persistor is
     // paused.
     _resetLastState: () => { lastWrittenState = store.getState() }
-  }
-}
-
-function warnIfSetError (updatedSubstates) {
-  return function setError (err) {
-    if (err) {
-      logging.warn(
-        'An error (below) was encountered while trying to persist this set of keys:',
-        updatedSubstates.map(([key]) => key).join(', ')
-      );
-      logging.warn(err);
-    }
   }
 }
 
