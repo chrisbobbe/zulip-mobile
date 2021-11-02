@@ -486,11 +486,11 @@ var compiledWebviewJs = (function (exports) {
     var midY = (bottom + top) / 2;
     var midElements = document.elementsFromPoint(0, midY);
 
-    if (midElements.length < 3) {
+    if (midElements.length < 4) {
       return null;
     }
 
-    return midElements[midElements.length - 3];
+    return midElements[midElements.length - 4];
   }
 
   function walkToMessage(start, step) {

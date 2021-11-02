@@ -249,7 +249,8 @@ window.addEventListener('resize', event => {
  *
  * A "message-list element" is a message or one of their siblings that get
  * laid out among them: e.g. a recipient bar or date separator, but not an
- * absolutely-positioned overlay.
+ * absolutely-positioned overlay. All message-list elements are direct
+ * children of a div#msglist-elements.
  *
  * If the middle of the screen is just blank, returns null.
  */
@@ -263,16 +264,16 @@ function midMessageListElement(top: number, bottom: number): ?Element {
   // the sequence is:
   //   [ ...(random widgets, if any),
   //     ...(descendants of message-list element), message-list element,
-  //     body, html ]
+  //     div#msglist-elements, body, html ]
 
   const midY = (bottom + top) / 2;
 
   const midElements: Array<HTMLElement> = document.elementsFromPoint(0, midY);
-  if (midElements.length < 3) {
-    // Just [body, html].
+  if (midElements.length < 4) {
+    // Just [div#msglist-elements, body, html].
     return null;
   }
-  return midElements[midElements.length - 3];
+  return midElements[midElements.length - 4];
 }
 
 /**
