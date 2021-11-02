@@ -71,25 +71,6 @@ if (!Array.from) {
   };
 }
 
-/*
- * Polyfill Element#closest.
- *
- * This method appears natively in Mobile Safari 9 and Chrome 41.
- *
- * Uses Element#matches, which we have a separate polyfill for.
- */
-if (!Element.prototype.closest) {
-  /* $FlowFixMe[cannot-write]: closest is not writable... except it's
-     absent here. */
-  Element.prototype.closest = function closest(selector) {
-    let element = this;
-    while (element && !element.matches(selector)) {
-      element = element.parentElement;
-    }
-    return element;
-  };
-}
-
 /* Polyfill String#startsWith. Native in Mobile Safari 9, Chrome 49.
    Taken (with minor edits) from the relevant MDN page. */
 if (!String.prototype.startsWith) {
@@ -100,18 +81,6 @@ if (!String.prototype.startsWith) {
   };
 }
 
-/* Polyfill String#includes. Native in Mobile Safari 9, Chrome 41.
-   Based directly on the current ECMAScript draft:
-     https://tc39.es/ecma262/#sec-string.prototype.includes */
-if (!String.prototype.includes) {
-  // $FlowFixMe[cannot-write] (polyfill)
-  String.prototype.includes = function includes(search: string, start: number = 0) {
-    /* required by the spec, but not worth the trouble */
-    // if (search instanceof RegExp) { throw new TypeError('...'); }
-    return this.indexOf(search, start) !== -1;
-  };
-}
-
 /* eslint-enable no-extend-native */
 
 // We pull out document.body in one place, and check it's not null, in order
@@ -119,6 +88,11 @@ if (!String.prototype.includes) {
 const documentBody = document.body;
 if (!documentBody) {
   throw new Error('No document.body element!');
+}
+
+const msglistElementsDiv = document.querySelector('div#msglist-elements');
+if (!msglistElementsDiv) {
+  throw new Error('No div#msglist-elements element!');
 }
 
 const escapeHtml = (text: string): string => {
@@ -300,12 +274,12 @@ function walkToMessage(
 
 /** The first message element in the document. */
 function firstMessage(): ?Element {
-  return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+  return walkToMessage(msglistElementsDiv.firstElementChild, 'nextElementSibling');
 }
 
 /** The last message element in the document. */
 function lastMessage(): ?Element {
-  return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+  return walkToMessage(msglistElementsDiv.lastElementChild, 'previousElementSibling');
 }
 
 /** The message before the given message, if any. */

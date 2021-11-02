@@ -372,18 +372,6 @@ var compiledWebviewJs = (function (exports) {
     };
   }
 
-  if (!Element.prototype.closest) {
-    Element.prototype.closest = function closest(selector) {
-      var element = this;
-
-      while (element && !element.matches(selector)) {
-        element = element.parentElement;
-      }
-
-      return element;
-    };
-  }
-
   if (!String.prototype.startsWith) {
     String.prototype.startsWith = function startsWith(search, rawPos) {
       var pos = rawPos > 0 ? rawPos | 0 : 0;
@@ -391,17 +379,16 @@ var compiledWebviewJs = (function (exports) {
     };
   }
 
-  if (!String.prototype.includes) {
-    String.prototype.includes = function includes(search) {
-      var start = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      return this.indexOf(search, start) !== -1;
-    };
-  }
-
   var documentBody = document.body;
 
   if (!documentBody) {
     throw new Error('No document.body element!');
+  }
+
+  var msglistElementsDiv = document.querySelector('div#msglist-elements');
+
+  if (!msglistElementsDiv) {
+    throw new Error('No div#msglist-elements element!');
   }
 
   var escapeHtml = function escapeHtml(text) {
@@ -504,11 +491,11 @@ var compiledWebviewJs = (function (exports) {
   }
 
   function firstMessage() {
-    return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+    return walkToMessage(msglistElementsDiv.firstElementChild, 'nextElementSibling');
   }
 
   function lastMessage() {
-    return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+    return walkToMessage(msglistElementsDiv.lastElementChild, 'previousElementSibling');
   }
 
   function previousMessage(start) {
