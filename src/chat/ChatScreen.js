@@ -181,7 +181,7 @@ export default function ChatScreen(props: Props): Node {
   );
 
   return (
-    <KeyboardAvoider style={[componentStyles.screen, { backgroundColor }]} behavior="padding">
+    <KeyboardAvoider style={[componentStyles.screen, { backgroundColor }]}>
       <ChatNavBar narrow={narrow} editMessage={editMessage} />
       <OfflineNotice />
       <UnreadNotice narrow={narrow} />

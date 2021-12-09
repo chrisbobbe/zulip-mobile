@@ -114,10 +114,7 @@ export default function Screen(props: Props): Node {
       )}
       <OfflineNotice />
       {shouldShowLoadingBanner && <LoadingBanner />}
-      <KeyboardAvoider
-        behavior="padding"
-        style={[componentStyles.wrapper, padding && styles.padding]}
-      >
+      <KeyboardAvoider style={[componentStyles.wrapper, padding && styles.padding]}>
         {scrollEnabled ? (
           <ScrollView
             contentContainerStyle={[centerContent && componentStyles.content, style]}
