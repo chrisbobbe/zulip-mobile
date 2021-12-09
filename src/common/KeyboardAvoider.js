@@ -8,7 +8,6 @@ type Props = $ReadOnly<{|
   behavior?: ?('height' | 'position' | 'padding'),
   children: Node,
   style?: ViewStyleProp,
-  contentContainerStyle?: ViewStyleProp,
 
   /** How much the top of `KeyboardAvoider`'s layout *parent* is
    * displaced downward from the top of the screen.
@@ -39,7 +38,7 @@ type Props = $ReadOnly<{|
  */
 export default class KeyboardAvoider extends PureComponent<Props> {
   render(): Node {
-    const { behavior, children, style, contentContainerStyle, keyboardVerticalOffset } = this.props;
+    const { behavior, children, style, keyboardVerticalOffset } = this.props;
 
     if (Platform.OS === 'android') {
       return <View style={style}>{children}</View>;
@@ -48,7 +47,6 @@ export default class KeyboardAvoider extends PureComponent<Props> {
     return (
       <KeyboardAvoidingView
         behavior={behavior}
-        contentContainerStyle={contentContainerStyle}
         // See comment on this prop in the jsdoc.
         keyboardVerticalOffset={keyboardVerticalOffset}
         style={style}

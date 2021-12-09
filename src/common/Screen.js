@@ -117,7 +117,6 @@ export default function Screen(props: Props): Node {
       <KeyboardAvoider
         behavior="padding"
         style={[componentStyles.wrapper, padding && styles.padding]}
-        contentContainerStyle={[padding && styles.padding]}
       >
         {scrollEnabled ? (
           <ScrollView
