@@ -18,10 +18,9 @@ export default class KeyboardAvoider extends PureComponent<Props> {
   render(): Node {
     const { children, style } = this.props;
 
-    if (Platform.OS === 'android') {
-      return <View style={style}>{children}</View>;
-    }
-
-    return <KeyboardAvoiderIos style={style}>{children}</KeyboardAvoiderIos>;
+    return Platform.select({
+      android: <View style={style}>{children}</View>,
+      ios: <KeyboardAvoiderIos style={style}>{children}</KeyboardAvoiderIos>,
+    });
   }
 }
