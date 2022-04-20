@@ -173,7 +173,8 @@ export type User = $ReadOnly<{|
  *
  * Cross-realm bots are used for a handful of bots defined in the Zulip
  * server code, like Welcome Bot.  They're found in the `cross_realm_bots`
- * property of a `/register` response, represented with this type.
+ * property of a `/register` response, represented with this type.  Doc:
+ *   https://zulip.com/api/register-queue
  *
  * See also:
  *  * `User` and its property `is_bot`.  Bot users that appear in a single
@@ -181,16 +182,18 @@ export type User = $ReadOnly<{|
  *  * `UserOrBot`, a convenience union
  */
 export type CrossRealmBot = $ReadOnly<{|
+  // Property ordering follows the doc.
+
+  email: string,
+  is_bot: true,
+
   /**
    * See note for this property on User.
    */
   avatar_url: AvatarURL,
 
-  date_joined: string,
-  email: string,
   full_name: string,
   is_admin: boolean,
-  is_bot: true,
   user_id: UserId,
 
   // The ? is for future-proofing.  For bots it's always '':
@@ -198,6 +201,8 @@ export type CrossRealmBot = $ReadOnly<{|
   // so a future version may omit it to reduce payload sizes.  See comment
   // on the same field in User.
   timezone?: string,
+
+  date_joined: string,
 |}>;
 
 /**
