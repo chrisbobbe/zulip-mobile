@@ -174,6 +174,7 @@ export const makeUser = (args: UserOrBotPropertiesArgs = Object.freeze({})): Use
 
     // TODO: move to userOrBotProperties after syncing CrossRealmBot w/ doc.
     avatar_version: 0,
+    is_active: true,
 
     is_bot: false,
     // bot_type omitted

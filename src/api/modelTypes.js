@@ -116,9 +116,7 @@ export type User = $ReadOnly<{|
   user_id: UserId,
   bot_owner?: string,
 
-  // is_active doesn't appear in `/register` responses -- instead,
-  // users where is_active is true go in `realm_users`, and where false
-  // go in `realm_non_active_users`.  Shrug.
+  is_active: boolean,
 
   // is_guest included since commit d5df0377c (in 1.9.0); before that,
   // there's no such concept, so effectively it's implicitly false.
