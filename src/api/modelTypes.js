@@ -183,6 +183,7 @@ export type User = $ReadOnly<{|
  */
 export type CrossRealmBot = $ReadOnly<{|
   // Property ordering follows the doc.
+  // Current to feature level 121.
 
   email: string,
   is_bot: true,
@@ -192,9 +193,46 @@ export type CrossRealmBot = $ReadOnly<{|
    */
   avatar_url: AvatarURL,
 
+  // If we use this, avoid `avatar_url` falling out of sync with it.
+  -avatar_version: number,
+
   full_name: string,
   is_admin: boolean,
+
+  // TODO(server-3.0): New in FL 8
+  is_owner?: boolean,
+
+  // TODO(server-5.0): New in FL 73
+  is_billing_admin?: boolean,
+
+  // TODO(server-4.0): New in FL 59
+  // Possible values are:
+  //   Organization owner => 100
+  //   Organization administrator => 200
+  //   Organization moderator => 300
+  //   Member => 400
+  //   Guest => 600
+  role?: number,
+
+  // `null` if the user isn't a bot.
+  // `1` for a `Generic` bot.
+  // `2` for an `Incoming webhook` bot.
+  // `3` for an `Outgoing webhook` bot.
+  // `4` for an `Embedded` bot.
+  bot_type: number | null,
+
   user_id: UserId,
+
+  // TODO(server-3.0): New in FL 1, replacing bot_owner
+  bot_owner_id?: number | null,
+
+  // TODO(server-3.0): Replaced in FL 1 by bot_owner_id
+  bot_owner?: string,
+
+  is_active: boolean,
+
+  // TODO(server-1.9): New in commit d5df0377c; if absent, treat as false.
+  is_guest?: boolean,
 
   // The ? is for future-proofing.  For bots it's always '':
   //   https://github.com/zulip/zulip-mobile/pull/3789#issuecomment-581218576
@@ -203,6 +241,22 @@ export type CrossRealmBot = $ReadOnly<{|
   timezone?: string,
 
   date_joined: string,
+  delivery_email?: string,
+  profile_data: {|
+    +[id: string]: {|
+      +value: string,
+      // New in server 2.0, server commit e3aed0f7b.
+      // TODO(server-2.0): Delete the server-2.0 comment, but keep the type
+      //   optional; only some custom profile field types support Markdown.
+      +rendered_value?: string,
+    |},
+  |},
+
+  // TODO(server-5.0): New in FL 83, replacing is_cross_realm_bot
+  is_system_bot?: boolean,
+
+  // TODO(server-5.0): Replaced in FL 83 by is_system_bot
+  is_cross_realm_bot?: boolean,
 |}>;
 
 /**

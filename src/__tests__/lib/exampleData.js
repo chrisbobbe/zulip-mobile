@@ -154,6 +154,7 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
   const randName = randString();
   return deepFreeze({
     avatar_url: args.avatar_url ?? makeAvatarUrl(user_id.toString()),
+    avatar_version: 0,
 
     date_joined: `2014-04-${randInt(30)
       .toString()
@@ -164,6 +165,9 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
     is_admin: false,
     timezone: 'UTC',
     user_id,
+
+    is_active: true,
+    profile_data: {},
   });
 };
 
@@ -171,11 +175,6 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
 export const makeUser = (args: UserOrBotPropertiesArgs = Object.freeze({})): User =>
   deepFreeze({
     ...userOrBotProperties(args),
-
-    // TODO: move to userOrBotProperties after syncing CrossRealmBot w/ doc.
-    avatar_version: 0,
-    is_active: true,
-    profile_data: {},
 
     is_bot: false,
     bot_type: null,
@@ -191,6 +190,8 @@ export const makeCrossRealmBot = (
   deepFreeze({
     ...userOrBotProperties(args),
     is_bot: true,
+
+    bot_type: 1,
   });
 
 export const userStatusEmojiUnicode: $PropertyType<UserStatus, 'status_emoji'> = deepFreeze({
