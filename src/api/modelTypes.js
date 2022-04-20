@@ -88,6 +88,7 @@ export type DevUser = $ReadOnly<{|
  */
 export type User = $ReadOnly<{|
   // Property ordering follows the doc.
+  // Current to feature level 121.
 
   // For background on the "*bot*" fields, see user docs on bots:
   //   https://zulip.com/help/add-a-bot-or-integration
@@ -113,6 +114,21 @@ export type User = $ReadOnly<{|
   full_name: string,
   is_admin: boolean,
 
+  // TODO(server-3.0): New in FL 8
+  is_owner?: boolean,
+
+  // TODO(server-5.0): New in FL 73
+  is_billing_admin?: boolean,
+
+  // TODO(server-4.0): New in FL 59
+  // Possible values are:
+  //   Organization owner => 100
+  //   Organization administrator => 200
+  //   Organization moderator => 300
+  //   Member => 400
+  //   Guest => 600
+  role?: number,
+
   // `null` if the user isn't a bot.
   // `1` for a `Generic` bot.
   // `2` for an `Incoming webhook` bot.
@@ -121,6 +137,11 @@ export type User = $ReadOnly<{|
   bot_type: number | null,
 
   user_id: UserId,
+
+  // TODO(server-3.0): New in FL 1, replacing bot_owner
+  bot_owner_id?: number | null,
+
+  // TODO(server-3.0): Replaced in FL 1 by bot_owner_id
   bot_owner?: string,
 
   is_active: boolean,
@@ -135,6 +156,7 @@ export type User = $ReadOnly<{|
   timezone?: string,
 
   date_joined: string,
+  delivery_email?: string,
   profile_data: {|
     +[id: string]: {|
       +value: string,
