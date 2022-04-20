@@ -94,13 +94,6 @@ export type User = $ReadOnly<{|
   // Note that certain bots are represented by a different type entirely,
   // namely `CrossRealmBot`.
 
-  // These properties appear in data from the server, but we ignore
-  // them. If we add these, we should try to avoid `avatar_url`
-  // falling out of sync with them.
-  // avatar_source: mixed,
-  // avatar_url_medium: mixed,
-  // avatar_version: mixed,
-
   email: string,
   is_bot: boolean,
 
@@ -113,6 +106,9 @@ export type User = $ReadOnly<{|
    * AvatarURL.fromUserOrBotData.
    */
   avatar_url: AvatarURL,
+
+  // If we use this, avoid `avatar_url` falling out of sync with it.
+  -avatar_version: number,
 
   full_name: string,
   is_admin: boolean,
