@@ -78,24 +78,8 @@ export type DevUser = $ReadOnly<{|
  * A Zulip user, which might be a human or a bot, as found in one realm.
  *
  * This is a user object as found in properties `realm_users` and
- * `realm_non_active_users` of a `/register` response.
- *
- * For details on the properties, see the Zulip API docs on `/users`:
- *   https://zulip.com/api/get-users#response
- * which returns almost the same set of properties.
- *
- * See also the comments on `UserProfile` in the server (lineno is approx.):
- *   https://github.com/zulip/zulip/blob/main/zerver/models.py#L734
- * Most properties correspond to fields on `UserProfile`, and many are
- * described most usefully there.
- *
- * For authoritative results, consult how `raw_users`, and then
- * `realm_users` and `realm_non_active_users`, are computed in
- * `zulip/zulip:zerver/lib/events.py` .
- *
- * Properties are listed below in the order they appear on `UserProfile`,
- * because that's the most logically-organized and also the most helpful
- * of the references above.
+ * `realm_non_active_users` of a `/register` response. See the API doc:
+ *   https://zulip.com/api/register-queue
  *
  * See also:
  *  * `CrossRealmBot` for another type of bot user, found in a
@@ -103,37 +87,22 @@ export type DevUser = $ReadOnly<{|
  *  * `UserOrBot` for a convenience union of the two
  */
 export type User = $ReadOnly<{|
-  user_id: UserId,
-  email: string,
-
-  full_name: string,
-
-  date_joined: string,
-
-  // is_active doesn't appear in `/register` responses -- instead,
-  // users where is_active is true go in `realm_users`, and where false
-  // go in `realm_non_active_users`.  Shrug.
-
-  // is_admin corresponds to is_realm_admin in server code.
-  is_admin: boolean,
-
-  // is_guest included since commit d5df0377c (in 1.9.0); before that,
-  // there's no such concept, so effectively it's implicitly false.
-  is_guest?: boolean,
+  // Property ordering follows the doc.
 
   // For background on the "*bot*" fields, see user docs on bots:
   //   https://zulip.com/help/add-a-bot-or-integration
   // Note that certain bots are represented by a different type entirely,
   // namely `CrossRealmBot`.
-  is_bot: boolean,
-  bot_type?: number,
-  bot_owner?: string,
 
-  // The ? is for future-proofing. Greg explains in 2020-02, at
-  // https://github.com/zulip/zulip-mobile/pull/3789#discussion_r378554698 ,
-  // that both human and bot Users will likely end up having a missing
-  // timezone instead of an empty string.
-  timezone?: string,
+  // These properties appear in data from the server, but we ignore
+  // them. If we add these, we should try to avoid `avatar_url`
+  // falling out of sync with them.
+  // avatar_source: mixed,
+  // avatar_url_medium: mixed,
+  // avatar_version: mixed,
+
+  email: string,
+  is_bot: boolean,
 
   /**
    * Present under EVENT_USER_ADD, EVENT_USER_UPDATE (if change
@@ -145,12 +114,30 @@ export type User = $ReadOnly<{|
    */
   avatar_url: AvatarURL,
 
-  // These properties appear in data from the server, but we ignore
-  // them. If we add these, we should try to avoid `avatar_url`
-  // falling out of sync with them.
-  // avatar_source: mixed,
-  // avatar_url_medium: mixed,
-  // avatar_version: mixed,
+  full_name: string,
+
+  // is_admin corresponds to is_realm_admin in server code.
+  is_admin: boolean,
+
+  bot_type?: number,
+  user_id: UserId,
+  bot_owner?: string,
+
+  // is_active doesn't appear in `/register` responses -- instead,
+  // users where is_active is true go in `realm_users`, and where false
+  // go in `realm_non_active_users`.  Shrug.
+
+  // is_guest included since commit d5df0377c (in 1.9.0); before that,
+  // there's no such concept, so effectively it's implicitly false.
+  is_guest?: boolean,
+
+  // The ? is for future-proofing. Greg explains in 2020-02, at
+  // https://github.com/zulip/zulip-mobile/pull/3789#discussion_r378554698 ,
+  // that both human and bot Users will likely end up having a missing
+  // timezone instead of an empty string.
+  timezone?: string,
+
+  date_joined: string,
 
   // profile_data added in commit 02b845336 (in 1.8.0);
   // see also e3aed0f7b (in 2.0.0)
