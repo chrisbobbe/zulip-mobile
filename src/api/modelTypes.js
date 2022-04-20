@@ -115,10 +115,7 @@ export type User = $ReadOnly<{|
   avatar_url: AvatarURL,
 
   full_name: string,
-
-  // is_admin corresponds to is_realm_admin in server code.
   is_admin: boolean,
-
   bot_type?: number,
   user_id: UserId,
   bot_owner?: string,
