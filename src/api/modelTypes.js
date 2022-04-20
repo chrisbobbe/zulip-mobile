@@ -129,11 +129,15 @@ export type User = $ReadOnly<{|
   timezone?: string,
 
   date_joined: string,
-
-  // profile_data added in commit 02b845336 (in 1.8.0);
-  // see also e3aed0f7b (in 2.0.0)
-  // (This one doesn't appear in `/users` responses.)
-  profile_data?: empty, // When we need this, describe its actual type.
+  profile_data: {|
+    +[id: string]: {|
+      +value: string,
+      // New in server 2.0, server commit e3aed0f7b.
+      // TODO(server-2.0): Delete the server-2.0 comment, but keep the type
+      //   optional; only some custom profile field types support Markdown.
+      +rendered_value?: string,
+    |},
+  |},
 |}>;
 
 /**
