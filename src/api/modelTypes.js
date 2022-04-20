@@ -112,7 +112,14 @@ export type User = $ReadOnly<{|
 
   full_name: string,
   is_admin: boolean,
-  bot_type?: number,
+
+  // `null` if the user isn't a bot.
+  // `1` for a `Generic` bot.
+  // `2` for an `Incoming webhook` bot.
+  // `3` for an `Outgoing webhook` bot.
+  // `4` for an `Embedded` bot.
+  bot_type: number | null,
+
   user_id: UserId,
   bot_owner?: string,
 
