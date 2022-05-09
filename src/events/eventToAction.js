@@ -266,6 +266,14 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
               realm,
             });
           }
+          if (event.person.custom_profile_field !== undefined) {
+            const { id, value, rendered_value } = event.person.custom_profile_field;
+
+            person.profile_data = {
+              ...(existingUser.profile_data != null ? existingUser.profile_data : undefined),
+              [id]: { value, ...(rendered_value != null ? { rendered_value } : undefined) },
+            };
+          }
 
           return {
             type: EVENT_USER_UPDATE,
