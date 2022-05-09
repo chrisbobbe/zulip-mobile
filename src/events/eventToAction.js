@@ -252,27 +252,27 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
             );
             return null;
           }
+
+          const person = {};
+          if (event.person.avatar_url !== undefined) {
+            // Note: The `avatar_url` field will be out of sync with
+            // some related, documented properties, but we don't
+            // currently use them: `avatar_source`,
+            // `avatar_url_medium`, and `avatar_version`.
+            person.avatar_url = AvatarURL.fromUserOrBotData({
+              rawAvatarUrl: event.person.avatar_url,
+              userId,
+              email: existingUser.email,
+              realm,
+            });
+          }
+
           return {
             type: EVENT_USER_UPDATE,
             id: event.id,
             userId,
             // Just the fields we want to overwrite.
-            person: {
-              // Note: The `avatar_url` field will be out of sync with
-              // some related, documented properties, but we don't
-              // currently use them: `avatar_source`,
-              // `avatar_url_medium`, and `avatar_version`.
-              ...(event.person.avatar_url !== undefined
-                ? {
-                    avatar_url: AvatarURL.fromUserOrBotData({
-                      rawAvatarUrl: event.person.avatar_url,
-                      userId,
-                      email: existingUser.email,
-                      realm,
-                    }),
-                  }
-                : undefined),
-            },
+            person,
           };
         }
 
