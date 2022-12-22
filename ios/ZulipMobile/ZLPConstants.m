@@ -13,9 +13,14 @@ RCT_EXPORT_MODULE()
 
 - (NSDictionary *)constantsToExport
 {
-  return @{
-           @"resourceURL": [[[NSBundle mainBundle] resourceURL] absoluteString]
-           };
+  NSMutableDictionary *result = [NSMutableDictionary new];
+  result[@"resourceURL"] = [[[NSBundle mainBundle] resourceURL] absoluteString];
+  result[@"UIApplicationOpenSettingsURLString"] = UIApplicationOpenSettingsURLString;
+  if (@available(iOS 15.4, *)) {
+    // TODO(ios-15.4): Remove conditional.
+    result[@"UIApplicationOpenNotificationSettingsURLString"] = UIApplicationOpenNotificationSettingsURLString;
+  }
+  return result;
 }
 
 @end
