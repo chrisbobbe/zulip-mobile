@@ -233,6 +233,7 @@
   "Members": "Members",
   "Recipients": "Recipients",
   "Delete message": "Delete message",
+  "System notification settings for Zulip": "System notification settings for Zulip",
   "Notifications when online": "Notifications when online",
   "Notifications when offline": "Notifications when offline",
   "Stream notifications": "Stream notifications",

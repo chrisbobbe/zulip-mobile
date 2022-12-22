@@ -41,6 +41,7 @@
     "expo": "^45.0.0",
     "expo-apple-authentication": "~4.2.1",
     "expo-application": "~4.1.0",
+    "expo-notifications": "^0.17.0",
     "expo-screen-orientation": "~4.2.0",
     "expo-sqlite": "~10.2.0",
     "expo-web-browser": "~10.2.1",

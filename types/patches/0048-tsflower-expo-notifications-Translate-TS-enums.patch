@@ -1,0 +1,89 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Thu, 22 Dec 2022 14:34:01 -0500
+Subject: [tsflower] expo-notifications: Translate TS enums
+
+---
+ .../NotificationPermissions.types.js.flow     | 49 +++++++++----------
+ 1 file changed, 23 insertions(+), 26 deletions(-)
+
+diff --git types/expo-notifications/build/NotificationPermissions.types.js.flow types/expo-notifications/build/NotificationPermissions.types.js.flow
+index a48dfbd19..452321346 100644
+--- types/expo-notifications/build/NotificationPermissions.types.js.flow
++++ types/expo-notifications/build/NotificationPermissions.types.js.flow
+@@ -3,49 +3,46 @@
+  */
+ import { type PermissionResponse } from 'expo-modules-core';
+ 
+-/* tsflower-unimplemented: EnumDeclaration */
+-/* 
+-export declare enum IosAlertStyle {
+-    NONE = 0,
+-    BANNER = 1,
+-    ALERT = 2
+-} */
++declare export var IosAlertStyle: {|
++  NONE: 0,
++  BANNER: 1,
++  ALERT: 2,
++|};
++export type IosAlertStyleT = $Values<typeof IosAlertStyle>;
+ 
+-/* tsflower-unimplemented: EnumDeclaration */
+-/* 
+-export declare enum IosAllowsPreviews {
+-    NEVER = 0,
+-    ALWAYS = 1,
+-    WHEN_AUTHENTICATED = 2
+-} */
++declare export var IosAllowsPreviews: {|
++  NEVER: 0,
++  ALWAYS: 1,
++  WHEN_AUTHENTICATED: 2,
++|};
++export type IosAllowsPreviewsT = $Values<typeof IosAllowsPreviews>;
+ 
+-/* tsflower-unimplemented: EnumDeclaration */
+-/* 
+-export declare enum IosAuthorizationStatus {
+-    NOT_DETERMINED = 0,
+-    DENIED = 1,
+-    AUTHORIZED = 2,
+-    PROVISIONAL = 3,
+-    EPHEMERAL = 4
+-} */
++declare export var IosAuthorizationStatus: {|
++  NOT_DETERMINED: 0,
++  DENIED: 1,
++  AUTHORIZED: 2,
++  PROVISIONAL: 3,
++  EPHEMERAL: 4,
++|};
++export type IosAuthorizationStatusT = $Values<typeof IosAuthorizationStatus>;
+ 
+ export interface NotificationPermissionsStatus extends PermissionResponse {
+   android?: {
+     importance: number,
+     interruptionFilter?: number,
+     ...
+   };
+   ios?: {
+-    status: IosAuthorizationStatus,
++    status: IosAuthorizationStatusT,
+     allowsDisplayInNotificationCenter: boolean | null,
+     allowsDisplayOnLockScreen: boolean | null,
+     allowsDisplayInCarPlay: boolean | null,
+     allowsAlert: boolean | null,
+     allowsBadge: boolean | null,
+     allowsSound: boolean | null,
+     allowsCriticalAlerts?: boolean | null,
+-    alertStyle: IosAlertStyle,
+-    allowsPreviews?: IosAllowsPreviews,
++    alertStyle: IosAlertStyleT,
++    allowsPreviews?: IosAllowsPreviewsT,
+     providesAppNotificationSettings?: boolean,
+     allowsAnnouncements?: boolean | null,
+     ...
+-- 
+2.32.0
+
