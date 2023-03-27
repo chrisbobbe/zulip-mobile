@@ -1,0 +1,9 @@
+<resources>
+    <!-- Mark the user-facing name of the no-notifications debug build to
+    distinguish it from the usual ("full") debug build. We give builds with
+    the "noNotifications" flavor a special application ID (see
+    applicationIdSuffix in the flavor's definition, in app/build.gradle). I
+    think that's why two different debug builds can be installed on a device
+    at once: one with this flavor, one without. -->
+    <string name="app_name">Zulip (no notifications, debug)</string>
+</resources>

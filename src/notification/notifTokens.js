@@ -23,7 +23,7 @@ import { getAccount } from '../account/accountsSelectors';
 import * as logging from '../utils/logging';
 
 /**
- * Get the FCM token.
+ * Get the FCM token, or return null if the notifications feature is removed.
  *
  * Returns null (and logs a warning or error) if getting the token failed.
  */

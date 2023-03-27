@@ -101,13 +101,13 @@ function useNativeState() {
   const getAndSetResult = React.useCallback(() => {
     if (Platform.OS === 'android') {
       (async () => {
-        const googlePlayServicesAvailability: GooglePlayServicesAvailability =
+        const googlePlayServicesAvailability: GooglePlayServicesAvailability | null =
           await Notifications.googlePlayServicesAvailability();
         setResult(r => ({ ...r, googlePlayServicesAvailability }));
       })();
 
       (async () => {
-        const systemSettingsEnabled: boolean = await Notifications.areNotificationsEnabled();
+        const systemSettingsEnabled: boolean | null = await Notifications.areNotificationsEnabled();
         setResult(r => ({ ...r, systemSettingsEnabled }));
       })();
     } else {

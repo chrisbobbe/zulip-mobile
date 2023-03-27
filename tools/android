@@ -64,14 +64,20 @@ do_apk() {
     check_yarn_link
     run_visibly yarn
 
-    run_visibly tools/gradle :app:assembleRelease -Psigned -Psentry
+    # Tip: for the build variant with the "release" type and the
+    #   "noNotifications" flavor, use :app:assembleNoNotificationsRelease
+    #   instead.
+    run_visibly tools/gradle :app:assembleFullRelease -Psigned -Psentry
 }
 
 do_aab() {
     check_yarn_link
     run_visibly yarn
 
-    run_visibly tools/gradle :app:bundleRelease -Psigned -Psentry
+    # Tip: for the build variant with the "release" type and the
+    #   "noNotifications" flavor, use
+    #   :app:bundleNoNotificationsRelease instead.
+    run_visibly tools/gradle :app:bundleFullRelease -Psigned -Psentry
 }
 
 case "${action}" in

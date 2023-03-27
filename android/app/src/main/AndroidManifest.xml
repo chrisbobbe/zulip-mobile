@@ -111,14 +111,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".notifications.FcmListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
         <!-- To make a build that reports errors to Sentry, fill in the Sentry DSN below
              and uncomment.  See src/sentryConfig.js for another site and more discussion. -->
         <!--

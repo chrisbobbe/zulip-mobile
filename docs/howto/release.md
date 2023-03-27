@@ -115,8 +115,8 @@ simple terminology for the process we follow with both.
   tools/android aab && tools/android apk
   ```
 
-* This produces an AAB at `android/app/build/outputs/bundle/release/app-release.aab`
-  and a set of APKs at `android/app/build/outputs/apk/release/app-*-release.apk`.
+* This produces an AAB at `android/app/build/outputs/bundle/fullRelease/app-full-release.aab`
+  and a set of APKs at `android/app/build/outputs/apk/full/release/app-full-*-release.apk`.
 
 * Upload the AAB to Google Play via the "Create new release" button at
   the top of the

@@ -179,6 +179,24 @@ android {
             include (*reactNativeArchitectures())
         }
     }
+
+    // This section on "product flavors" lets us define a build variant that
+    // excludes notification support. A "build variant" is the cross product
+    // of a "product flavor" and a "build type" (e.g. debug/release):
+    //   https://developer.android.com/build/build-variants
+    // For the code that only belongs to "full", see src/full. For the code
+    // that only belongs to "noNotifications", see src/noNotifications.
+    flavorDimensions 'version' // a more meaningful name would be better
+    productFlavors {
+        full {
+            dimension 'version'
+        }
+        noNotifications {
+            dimension 'version'
+            applicationIdSuffix '.nonotifications'
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -212,8 +230,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
 
+    // We say "full" so this applies to usual builds; in particular, not
+    // ones with the "noNotifications" flavor.
     // TODO(#5087): Eliminate unused code for Firebase analytics
-    implementation "com.google.firebase:firebase-messaging:17.3.4"
+    fullImplementation "com.google.firebase:firebase-messaging:17.3.4"
 
     // ==== Test dependencies
     testImplementation 'junit:junit:4.12'
