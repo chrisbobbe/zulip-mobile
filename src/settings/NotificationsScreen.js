@@ -57,12 +57,11 @@ export default function NotificationsScreen(props: Props): Node {
     notificationReport,
     'NotificationsScreen: expected notificationReport for current account',
   );
+  const { problems } = notificationReport;
   const otherAccounts = useGlobalSelector(state =>
     getIdentities(state).filter(identity_ => !getIsActiveAccount(state, identity_)),
   );
-  const systemSettingsWarnings = notificationReport.problems
-    .map(systemSettingsWarning)
-    .filter(Boolean);
+  const systemSettingsWarnings = problems.map(systemSettingsWarning).filter(Boolean);
 
   const handleSystemSettingsPress = useCallback(() => {
     if (systemSettingsWarnings.length > 1) {
@@ -118,7 +117,7 @@ export default function NotificationsScreen(props: Props): Node {
         onPress={handleSystemSettingsPress}
         type="external"
       />
-      {!notificationReport.problems.includes(NotificationProblem.SystemSettingsDisabled) && (
+      {!problems.includes(NotificationProblem.SystemSettingsDisabled) && (
         <>
           <PerAccountNotificationSettingsGroup navigation={navigation} />
           {otherAccounts.length > 0 && (
