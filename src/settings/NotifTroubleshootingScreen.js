@@ -89,18 +89,22 @@ function useNativeState() {
   // Subject to races if calls to a given native method can resolve out of
   // order (unknown).
   const getAndSetResult = React.useCallback(() => {
-    (async () => {
-      const systemSettingsEnabled: boolean = await (Platform.OS === 'android'
-        ? Notifications.areNotificationsEnabled()
-        : ZLPNotificationsStatus.areNotificationsAuthorized());
-      setResult(r => ({ ...r, systemSettingsEnabled }));
-    })();
-
     if (Platform.OS === 'android') {
       (async () => {
         const googlePlayServicesAvailability: GooglePlayServicesAvailability =
           await Notifications.googlePlayServicesAvailability();
         setResult(r => ({ ...r, googlePlayServicesAvailability }));
+      })();
+
+      (async () => {
+        const systemSettingsEnabled: boolean = await Notifications.areNotificationsEnabled();
+        setResult(r => ({ ...r, systemSettingsEnabled }));
+      })();
+    } else {
+      (async () => {
+        const systemSettingsEnabled: boolean =
+          await ZLPNotificationsStatus.areNotificationsAuthorized();
+        setResult(r => ({ ...r, systemSettingsEnabled }));
       })();
     }
   }, []);
