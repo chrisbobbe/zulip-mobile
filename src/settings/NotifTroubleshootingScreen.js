@@ -73,6 +73,14 @@ type GooglePlayServicesAvailability = {|
  */
 type NativeState = {|
   +systemSettingsEnabled: boolean | null,
+
+  /**
+   * Whether we're in a build variant with the `noNotifications` flavor.
+   *
+   * For what that is, see app/build.gradle.
+   */
+  +isNoNotificationsBuild: boolean | void,
+
   +googlePlayServicesAvailability: GooglePlayServicesAvailability | null | void,
 
   // TODO: …more, e.g.:
@@ -83,6 +91,8 @@ type NativeState = {|
 function useNativeState() {
   const [result, setResult] = React.useState<NativeState>({
     systemSettingsEnabled: null,
+    isNoNotificationsBuild:
+      Platform.OS === 'android' ? Notifications.isNoNotificationsBuild : undefined,
     googlePlayServicesAvailability: Platform.OS === 'android' ? null : undefined,
   });
 
@@ -127,8 +137,9 @@ function useNativeState() {
 export enum NotificationProblem {
   TokenNotAcked = 0,
   SystemSettingsDisabled = 1,
-  GooglePlayServicesNotAvailable = 2,
-  ServerHasNotEnabled = 3,
+  NoNotificationsBuild = 2,
+  GooglePlayServicesNotAvailable = 3,
+  ServerHasNotEnabled = 4,
 
   // TODO: more, such as:
   //   - Can't reach the server (ideally after #5615, to be less buggy)
@@ -226,6 +237,9 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
               && !nativeState.googlePlayServicesAvailability.isSuccess
             ) {
               problems.push(NotificationProblem.GooglePlayServicesNotAvailable);
+            }
+            if (nativeState.isNoNotificationsBuild === true) {
+              problems.push(NotificationProblem.NoNotificationsBuild);
             }
             if (nativeState.systemSettingsEnabled === false) {
               problems.push(NotificationProblem.SystemSettingsDisabled);
@@ -402,6 +416,11 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
             text="Notifications are disabled in system settings."
           />,
         );
+        break;
+
+      case NotificationProblem.NoNotificationsBuild:
+        // This screen should be unreachable in this case, and we've already
+        // alerted the user.
         break;
 
       case NotificationProblem.GooglePlayServicesNotAvailable:

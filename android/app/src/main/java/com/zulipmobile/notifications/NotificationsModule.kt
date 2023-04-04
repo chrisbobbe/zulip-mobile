@@ -17,6 +17,9 @@ internal class NotificationsModule(reactContext: ReactApplicationContext) :
         return "Notifications"
     }
 
+    override fun getConstants(): MutableMap<String, Any> =
+        hashMapOf("isNoNotificationsBuild" to false)
+
     /**
      * Grab the token and return it to the JavaScript caller.
      */

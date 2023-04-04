@@ -15,13 +15,15 @@ import type { LocalizableText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { kWarningColor } from '../styles/constants';
 import { getIdentities, getIdentity, getIsActiveAccount } from '../account/accountsSelectors';
-import { openSystemNotificationSettings } from '../utils/openLink';
+import { openLinkWithUserPreference, openSystemNotificationSettings } from '../utils/openLink';
 import {
   useNotificationReportsByIdentityKey,
   NotificationProblem,
 } from './NotifTroubleshootingScreen';
 import { keyOfIdentity } from '../account/accountMisc';
 import PerAccountNotificationSettingsGroup from './PerAccountNotificationSettingsGroup';
+import TextRow from '../common/TextRow';
+import { getGlobalSettings } from '../directSelectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'notifications'>,
@@ -32,6 +34,7 @@ function systemSettingsWarning(problem): LocalizableText | null {
   switch (problem) {
     case NotificationProblem.SystemSettingsDisabled:
       return 'Notifications are disabled.';
+    case NotificationProblem.NoNotificationsBuild:
     case NotificationProblem.GooglePlayServicesNotAvailable:
     case NotificationProblem.TokenNotAcked:
     case NotificationProblem.ServerHasNotEnabled:
@@ -50,6 +53,7 @@ export default function NotificationsScreen(props: Props): Node {
 
   const _ = useContext(TranslationContext);
 
+  const globalSettings = useGlobalSelector(getGlobalSettings);
   const identity = useSelector(getIdentity);
   const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
   const notificationReport = notificationReportsByIdentityKey.get(keyOfIdentity(identity));
@@ -93,66 +97,86 @@ export default function NotificationsScreen(props: Props): Node {
 
   return (
     <Screen title="Notifications">
-      <NavRow
-        leftElement={
-          systemSettingsWarnings.length > 0
-            ? {
-                type: 'icon',
-                Component: IconAlertTriangle,
-                color: kWarningColor,
-              }
-            : undefined
-        }
-        title="System settings for Zulip"
-        subtitle={(() => {
-          switch (systemSettingsWarnings.length) {
-            case 0:
-              return undefined;
-            case 1:
-              return systemSettingsWarnings[0];
-            default:
-              return 'Multiple issues. Tap to learn more.';
-          }
-        })()}
-        onPress={handleSystemSettingsPress}
-        type="external"
-      />
-      {!problems.includes(NotificationProblem.SystemSettingsDisabled) && (
+      {problems.includes(NotificationProblem.NoNotificationsBuild) ? (
+        <NavRow
+          type="external"
+          leftElement={{ type: 'icon', Component: IconAlertTriangle, color: kWarningColor }}
+          title="Notification support has been removed in this build."
+          subtitle="Tap to learn more."
+          onPress={() => {
+            openLinkWithUserPreference(
+              new URL('https://github.com/zulip/zulip-mobile/tree/main#get-the-app'),
+              globalSettings,
+            );
+          }}
+        />
+      ) : (
         <>
-          <PerAccountNotificationSettingsGroup navigation={navigation} />
-          {otherAccounts.length > 0 && (
-            <NavRow
-              {...(() => {
-                const problemAccountsCount = otherAccounts.filter(a => {
-                  // eslint-disable-next-line no-underscore-dangle
-                  const notificationReport_ = notificationReportsByIdentityKey.get(
-                    keyOfIdentity(a),
-                  );
-                  invariant(notificationReport_, 'AccountPickScreen: expected notificationReport_');
+          <NavRow
+            leftElement={
+              systemSettingsWarnings.length > 0
+                ? {
+                    type: 'icon',
+                    Component: IconAlertTriangle,
+                    color: kWarningColor,
+                  }
+                : undefined
+            }
+            title="System settings for Zulip"
+            subtitle={(() => {
+              switch (systemSettingsWarnings.length) {
+                case 0:
+                  return undefined;
+                case 1:
+                  return systemSettingsWarnings[0];
+                default:
+                  return 'Multiple issues. Tap to learn more.';
+              }
+            })()}
+            onPress={handleSystemSettingsPress}
+            type="external"
+          />
+          {!problems.includes(NotificationProblem.SystemSettingsDisabled) && (
+            <>
+              <PerAccountNotificationSettingsGroup navigation={navigation} />
+              {otherAccounts.length > 0 && (
+                <NavRow
+                  {...(() => {
+                    const problemAccountsCount = otherAccounts.filter(a => {
+                      // eslint-disable-next-line no-underscore-dangle
+                      const notificationReport_ = notificationReportsByIdentityKey.get(
+                        keyOfIdentity(a),
+                      );
+                      invariant(
+                        notificationReport_,
+                        'AccountPickScreen: expected notificationReport_',
+                      );
 
-                  return notificationReport_.problems.length > 0;
-                }).length;
-                return problemAccountsCount > 0
-                  ? {
-                      leftElement: {
-                        type: 'icon',
-                        Component: IconAlertTriangle,
-                        color: kWarningColor,
-                      },
-                      subtitle: {
-                        text: `\
+                      return notificationReport_.problems.length > 0;
+                    }).length;
+                    return problemAccountsCount > 0
+                      ? {
+                          leftElement: {
+                            type: 'icon',
+                            Component: IconAlertTriangle,
+                            color: kWarningColor,
+                          },
+                          subtitle: {
+                            text: `\
 {problemAccountsCount, plural,
   one {Notifications for {problemAccountsCount} other logged-in account may not arrive.}
   other {Notifications for {problemAccountsCount} other logged-in accounts may not arrive.}
 }`,
-                        values: { problemAccountsCount },
-                      },
-                    }
-                  : undefined;
-              })()}
-              title="Other accounts"
-              onPress={handleOtherAccountsPress}
-            />
+                            values: { problemAccountsCount },
+                          },
+                        }
+                      : undefined;
+                  })()}
+                  title="Other accounts"
+                  onPress={handleOtherAccountsPress}
+                />
+              )}
+            </>
           )}
         </>
       )}
