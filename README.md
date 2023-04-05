@@ -17,8 +17,13 @@ Release versions of the app are available here:
   on the Google Play Store
   * Or if you don't use Google Play, you can [download an
     APK](https://github.com/zulip/zulip-mobile/releases/latest)
-    from the official build we post on GitHub, or get the app
-    [on F-Droid](https://f-droid.org/packages/com.zulipmobile/).
+    from the official build we post on GitHub.
+  * Note: The Android notifications feature uses Firebase Cloud Messaging,
+    so you'll need either Google Play Services (available on most Android
+    devices) or a drop-in FCM stub, such as from MicroG.
+  * You can also build the app from source, or look for unofficial builds
+    made and signed by others. We're aware that some of these builds remove
+    support for notifications, even if you have an FCM stub.
 
 You can also help out by [running beta versions](#using-the-beta) of
 the app, and reporting bugs!
