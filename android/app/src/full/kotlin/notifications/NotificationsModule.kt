@@ -13,6 +13,11 @@ import java.lang.Exception
 
 internal class NotificationsModule(reactContext: ReactApplicationContext) :
         ReactContextBaseJavaModule(reactContext) {
+    //
+    // If adding to the module's API, update
+    // src/noNotifications/kotlin/notifications/Stubs.js.
+    //
+
     override fun getName(): String {
         return "Notifications"
     }
@@ -88,4 +93,9 @@ internal class NotificationsModule(reactContext: ReactApplicationContext) :
             reactContext.emitEvent("remoteNotificationsRegistered", token)
         }
     }
+
+    //
+    // If adding to the module's API, update
+    // src/noNotifications/kotlin/notifications/Stubs.js.
+    //
 }
