@@ -1,4 +1,5 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
 import { addBreadcrumb } from '@sentry/react-native';
 import * as internal_url from '@zulip/shared/lib/internal_url';
 import { makeUserId } from '../api/idTypes';

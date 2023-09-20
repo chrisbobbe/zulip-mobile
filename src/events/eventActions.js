@@ -1,4 +1,5 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
 import { addBreadcrumb } from '@sentry/react-native';
 // $FlowFixMe[untyped-import]
 import isEqual from 'lodash.isequal';

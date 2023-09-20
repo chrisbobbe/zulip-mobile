@@ -85,8 +85,26 @@ project.ext.react = [
 apply from: "../../node_modules/react-native/react.gradle"
 
 if (hasProperty('sentry')) {
+    project.ext.sentryCli = [
+        logLevel: "debug"
+    ]
+
     // Conditionally enable Sentry, because it requires an auth key.
     apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
+
+    apply plugin: "io.sentry.android.gradle"
+    // https://docs.sentry.io/platforms/android/configuration/gradle/#configure
+    sentry {
+        uploadNativeSymbols = true
+        includeNativeSources = true
+        autoInstallation {
+            enabled = false
+        }
+
+        // Growing the event payload with this data seems like it might
+        // increase the rate of dropped events, which doesn't seem worth it.
+        includeDependenciesReport = true
+    }
 }
 
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
@@ -214,6 +232,8 @@ dependencies {
 
     // TODO(#5087): Eliminate unused code for Firebase analytics
     implementation "com.google.firebase:firebase-messaging:17.3.4"
+
+    implementation project(':@sentry_react-native')
 
     // ==== Test dependencies
     testImplementation 'junit:junit:4.12'

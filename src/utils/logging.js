@@ -1,10 +1,12 @@
 /* @flow strict-local */
-import type { Scope, SeverityType } from '@sentry/react-native';
 import {
+  // $FlowFixMe[untyped-import]
   captureException,
+  // $FlowFixMe[untyped-import]
   captureMessage,
+  // $FlowFixMe[untyped-import]
   configureScope,
-  Severity,
+  // $FlowFixMe[untyped-import]
   withScope as withScopeImpl,
 } from '@sentry/react-native';
 
@@ -15,6 +17,10 @@ import config from '../config';
 
 /** Type of "extras" intended for Sentry. */
 export type Extras = {| +[key: string]: JSONable |};
+
+// TODO import from @sentry/react-native libdef
+type Scope = $FlowFixMe;
+type SeverityType = $FlowFixMe;
 
 /**
  * `Error`, but subclass instances have the name of the subclass at `.name`
@@ -183,7 +189,7 @@ const makeLogFunction = ({ consoleMethod, severity }: LogParams): LogFunction =>
  */
 export const error: (event: string | Error, extras?: Extras) => void = makeLogFunction({
   consoleMethod: console.error,
-  severity: Severity.Error,
+  severity: 'error',
 });
 
 /**
@@ -208,7 +214,7 @@ export const error: (event: string | Error, extras?: Extras) => void = makeLogFu
  */
 export const warn: (event: string | Error, extras?: Extras) => void = makeLogFunction({
   consoleMethod: console.warn,
-  severity: Severity.Warning,
+  severity: 'warning',
 });
 
 /**

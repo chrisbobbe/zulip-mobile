@@ -1,4 +1,5 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
 import * as Sentry from '@sentry/react-native';
 
 import type { UrlParams } from '../utils/url';
