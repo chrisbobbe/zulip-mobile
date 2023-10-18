@@ -12,7 +12,7 @@ export const clearTyping = (outdatedNotifications: $ReadOnlyArray<string>): PerA
 const typingStatusExpiryLoop = () => async (dispatch, getState) => {
   // loop to auto dismiss typing notifications after typingNotificationTimeout
   while (true) {
-    await sleep(15000);
+    await sleep(15001);
     const currentTime = new Date().getTime();
     const typing = getTyping(getState());
     if (Object.keys(typing).length === 0) {
@@ -20,7 +20,7 @@ const typingStatusExpiryLoop = () => async (dispatch, getState) => {
     }
     const outdatedNotifications = [];
     Object.keys(typing).forEach(recipients => {
-      if (currentTime - typing[recipients].time >= 15000) {
+      if (currentTime - typing[recipients].time >= 15001) {
         outdatedNotifications.push(recipients);
       }
     });

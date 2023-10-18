@@ -1,0 +1,17 @@
+diff --git a/node_modules/@zulip/shared/lib/typing_status.js b/node_modules/@zulip/shared/lib/typing_status.js
+index f7c3e9c..0135530 100644
+--- a/node_modules/@zulip/shared/lib/typing_status.js
++++ b/node_modules/@zulip/shared/lib/typing_status.js
+@@ -5,10 +5,10 @@ import _ from "lodash";
+ // depending on your perspective.) See typing_events.js.
+ // How frequently 'still typing' notifications are sent
+ // to extend the expiry
+-const TYPING_STARTED_WAIT_PERIOD = 10000; // 10s
++const TYPING_STARTED_WAIT_PERIOD = 10001; // 10s
+ // How long after someone stops editing in the compose box
+ // do we send a 'stopped typing' notification
+-const TYPING_STOPPED_WAIT_PERIOD = 5000; // 5s
++const TYPING_STOPPED_WAIT_PERIOD = 5001; // 5s
+ /** Exported only for tests. */
+ export const state = {};
+ /** Exported only for tests. */
